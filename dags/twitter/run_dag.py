@@ -101,6 +101,8 @@ def etl():
                             'id': tw_id
                         }
                         tw_info = tw.fetch(endpoint=tw_ep, params=tw_params)
+                        # add HOT if more than 100 likes per tweet
+                        tw_info['is_hot'] = True if tw_info['favorite_count'] > 100 else False
                         f.write(json.dumps(tw_info))
                         f.write('\n')
 
