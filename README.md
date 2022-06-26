@@ -1,8 +1,8 @@
 run:
 
 1. download repo files `git clone git@github.com:achicha/airflow_example.git`
-2. add twitter `BEARER_TOKEN=` to `.env`
-3. go to airflow directory `cd airflow_example`
+2. go to airflow directory `cd airflow_example`
+3. add twitter `BEARER_TOKEN=` to `.env`
 4. start local airflow:
    ```shell
     docker-compose up --build -d
