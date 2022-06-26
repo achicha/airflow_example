@@ -1,3 +1,10 @@
 .idea/
 venv/
 __pycache__/
+
+# airflow
+postgres_db/
+logs/
+airflow.cfg
+airflow.db
+webserver_config.py

@@ -1,4 +1,4 @@
-from dags.utils.common import read_file
+from common import read_file
 
 
 file_ = '/Users/andreyev/Documents/Github/airflow_example/data/twitter_urls.txt'

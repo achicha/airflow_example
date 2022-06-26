@@ -2,8 +2,8 @@ import os
 from pprint import pprint
 from dotenv import load_dotenv
 
-from dags.twitter.parser import TwitterAPI
-from dags.utils.common import read_file
+from parser import TwitterAPI
+from utils.common import read_file
 
 
 # load .env to get BEARER_TOKEN
