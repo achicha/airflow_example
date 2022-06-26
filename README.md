@@ -1,7 +1,7 @@
 run:
 
 1. add twitter `BEARER_TOKEN=` to `.env`
-2. go to airflow directory `cd /opt/airflow`
+2. go to airflow directory `cd airflow_example`
 3. start local airflow:
    ```shell
     docker-compose up --build -d
