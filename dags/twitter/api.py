@@ -25,7 +25,7 @@ class TwitterAPI:
 
     @retry(exceptions=Exception, tries=5, jitter=(3, 7), logger=None)
     def _fetch(self, endpoint: str, params: dict = None) -> Dict:
-        """fetch Tweeter API"""
+        """fetch Twitter API"""
         base = 'https://api.twitter.com'
 
         url = os.path.join(base, endpoint)
