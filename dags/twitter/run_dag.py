@@ -12,7 +12,7 @@ from airflow.macros import ds_add
 from airflow.models import Variable
 
 from utils.common import read_file
-from twitter.parser import TwitterAPI
+from twitter.api import TwitterAPI
 
 
 default_args = {
@@ -57,9 +57,8 @@ def etl():
 
         output = []
         for acc in accounts:
-            ep = f'2/users/by/username/{acc}'
-            data = tw.fetch(endpoint=ep)
-            output.append(data['data']['id'])
+            data = tw.account_info(acc)
+            output.append(data['id'])
 
         return output
 
@@ -72,20 +71,11 @@ def etl():
 
         for account_id in account_ids:
             # find all tweets' ids
-            ep = f'2/users/{account_id}/tweets'
-            params = {
-                'max_results': 100,  # 5-100
-                'exclude': 'replies,retweets',
-                'tweet.fields': 'created_at,id',
-                'start_time': kwargs['ds'] + 'T00:00:00.000Z',
-                'end_time': ds_add(kwargs['ds'], 1) + 'T00:00:00.000Z',
-            }
-            logging.info(ep)
-            logging.info(params)
-
-            # todo: if more than 100 tweets per day, will need to implement page pagination
-            data = tw.fetch(endpoint=ep, params=params)
-            logging.info(data)
+            data = tw.get_tweets(
+                account_id,
+                kwargs['ds'] + 'T00:00:00.000Z',
+                ds_add(kwargs['ds'], 1) + 'T00:00:00.000Z'
+            )
 
             # get full info about each tweet and save it to json_newline file
             if data['meta']['result_count'] > 0:
@@ -96,11 +86,7 @@ def etl():
                     cnt += len(output)
 
                     for tw_id in output:
-                        tw_ep = '1.1/statuses/show.json'
-                        tw_params = {
-                            'id': tw_id
-                        }
-                        tw_info = tw.fetch(endpoint=tw_ep, params=tw_params)
+                        tw_info = tw.tweet_info(tweet_id=tw_id)
                         # add HOT if more than 100 likes per tweet
                         tw_info['is_hot'] = True if tw_info['favorite_count'] > 100 else False
                         f.write(json.dumps(tw_info))
