@@ -2,7 +2,7 @@ import os
 import logging
 import requests
 from retry import retry
-from typing import TypedDict, Dict, List
+from typing import TypedDict, Dict, List, Optional
 
 
 class AccountInfo(TypedDict):
@@ -24,7 +24,7 @@ class TwitterAPI:
         }
 
     @retry(exceptions=Exception, tries=5, jitter=(3, 7), logger=None)
-    def _fetch(self, endpoint: str, params: dict = None) -> Dict:
+    def _fetch(self, endpoint: str, params: Optional[Dict] = None) -> Dict:
         """fetch Twitter API"""
         base = 'https://api.twitter.com'
 
