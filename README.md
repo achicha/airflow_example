@@ -10,12 +10,13 @@ run:
 5. open airflow web `http://0.0.0.0:8080/` with `admin/admin` credentials
 6. run tests:
    ```shell
-    export PYTHONPATH="$(pwd)"
-    docker ps                           # get container_id from dwh_scheduler
-    docker exec -it container_id bash   # go inside running container
-    cd /opt/airflow/tests               # move to test directory
-    export 
-    pytest                              # run all tests
+    docker ps                             # get container_id from dwh_scheduler
+    docker exec -it container_id bash     # go inside running container
+    cd /opt/airflow                       # move to airflow directory
+    export PYTHONPATH="$(pwd)"            # add dags folder to variables
+    cd /opt/airflow/tests                 # move to test directory
+    pytest                                # run all tests
+    pytest -k test_twitter_api_account_id # or run specific test
    ```
 7. exit:
     ```shell

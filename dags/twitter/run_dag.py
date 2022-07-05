@@ -74,7 +74,7 @@ def etl():
             data = tw.get_tweets(
                 account_id,
                 kwargs['ds'] + 'T00:00:00.000Z',
-                ds_add(kwargs['ds'], 1) + 'T00:00:00.000Z'
+                kwargs['next_ds'] + 'T00:00:00.000Z'
             )
 
             # get full info about each tweet and save it to json_newline file
